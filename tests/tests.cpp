@@ -1,6 +1,4 @@
 #include "Variant.h"
-#include "BedReader.h"
-#include "intervaltree/IntervalTree.h"
 #include "../fastahack/src/Fasta.h"
 
 int main()

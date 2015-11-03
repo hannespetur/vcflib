@@ -24,6 +24,9 @@
 extern "C" {
     #include "filevercmp/filevercmp.h"
 }
+#include <seqan/basic.h>
+#include <seqan/sequence.h>
+#include <seqan/stream.h>
 
 using namespace std;
 
@@ -188,11 +191,12 @@ class Variant {
     
 public:
 
-    string sequenceName;
+    std::string sequenceName;
+    seqan::String<seqan::Dna> sequence_name;
     long position;
     long zeroBasedPosition(void);
-    string id;
-    string ref;
+    std::string id;
+    std::string ref;
     vector<string> alt;      // a list of all the alternate alleles present at this locus
     vector<string> alleles;  // a list all alleles (ref + alt) at this locus
                              // the indicies are organized such that the genotype codes (0,1,2,.etc.)
