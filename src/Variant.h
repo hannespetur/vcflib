@@ -15,9 +15,9 @@
 #include <set>
 #include "split.h"
 #include "join.h"
-#include "tabixpp/tabix.hpp"
-#include "smithwaterman/SmithWatermanGotoh.h"
-#include "smithwaterman/disorder.h"
+#include "tabixpp/src/tabix.hpp"
+#include "smithwaterman/src/SmithWatermanGotoh.h"
+#include "smithwaterman/src/disorder.h"
 #include "ssw_cpp.h"
 #include "convert.h"
 #include "multichoose/multichoose.h"
