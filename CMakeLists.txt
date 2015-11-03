@@ -33,7 +33,7 @@ set(EXECUTABLE_OUTPUT_PATH ../bin)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # Find htslib
-find_package(htslib REQUIRED)
+# find_package(htslib REQUIRED)
 include_directories(${htslib_INCLUDE_DIRS})
 include_directories($ENV{HTSLIB_ROOT})
 
