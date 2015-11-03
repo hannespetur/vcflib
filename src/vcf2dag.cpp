@@ -2,7 +2,7 @@
 #include "BedReader.h"
 #include "intervaltree/IntervalTree.h"
 #include <getopt.h>
-#include "fastahack/Fasta.h"
+#include "../fastahack/src/Fasta.h"
 #include <algorithm>
 #include <list>
 #include <set>

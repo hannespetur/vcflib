@@ -47,7 +47,6 @@ void tokenize(const std::string& str, ContainerT& tokens,
 
 	lastPos = pos + 1;
     }
-};
-
+}
 
 #endif

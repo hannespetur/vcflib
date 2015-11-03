@@ -1,0 +1,10 @@
+##fileformat=VCFv4.1
+##fileDate=20150805
+##source=Gyper
+##reference=reference.fa
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+chr1	2	rs6054257	G	A	.	.
+chr1	4	ins504320	G	GT	.	.
+chr1	6	del504320	TC	T	.	.
+chr1	11	msat14123	GGT	G,GGTGTGT	.	.
+chr2	3	rs6054257	A	T	.	.

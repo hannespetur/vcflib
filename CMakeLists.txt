@@ -35,7 +35,10 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 # Find htslib
 # find_package(htslib REQUIRED)
 include_directories(${htslib_INCLUDE_DIRS})
-include_directories($ENV{HTSLIB_ROOT})
+# include_directories($ENV{HTSLIB_ROOT})
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(src)
 
 add_subdirectory(fastahack)
 add_subdirectory(tabixpp)
@@ -50,4 +53,4 @@ add_subdirectory(src)
 # include_directories(${CATCH_INCLUDE_DIR} ${COMMON_INCLUDES})
 # enable_testing(true)
 
-# add_subdirectory(tests)
+add_subdirectory(tests)
