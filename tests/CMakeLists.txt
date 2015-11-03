@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
-include_directories("Including htslib2: ${htslib_INCLUDE_DIRS}")
+message("Including htslib2: ${htslib_INCLUDE_DIRS}")
+include_directories(${htslib_INCLUDE_DIRS})
 
 add_executable(test_vcflib tests.cpp)
 
