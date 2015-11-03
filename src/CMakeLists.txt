@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 
+message("Added htslib dir: ${htslib_INCLUDE_DIRS}")
+include_directories(${htslib_INCLUDE_DIRS})
+
 # Create a vcflib
 set(vcflib_SOURCE_FILES
    Variant.cpp
