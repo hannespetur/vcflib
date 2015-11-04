@@ -477,7 +477,7 @@ VariantFieldType Variant::infoType(string& key) {
     map<string, int>::iterator f = altAlleleIndexes.find(allele);
     if (f == altAlleleIndexes.end())
     {
-      cerr << "no such allele \'" << allele << "\' in record " << sequence_name << ":" << position << endl;
+      cerr << "no such allele \'" << allele << "\' in record " << sequenceName << ":" << position << endl;
       exit(1);
     }
     else
@@ -1310,75 +1310,110 @@ bool VariantCallFile::parseHeader(string& hs) {
   return true;
 }
 
-bool VariantCallFile::getNextVariant(Variant& var) {
-    if (firstRecord && !justSetRegion) {
-      if (!line.empty() && line.substr(0,1) != "#") {
-        var.parse(line, parseSamples);
+bool VariantCallFile::getNextVariant(Variant& var)
+{
+  if (firstRecord && !justSetRegion)
+  {
+    if (!line.empty() && line.substr(0,1) != "#")
+    {
+      var.parse(line, parseSamples);
+      firstRecord = false;
+      _done = false;
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  if (usingTabix)
+  {
+    if (justSetRegion && !line.empty() && line.substr(0,1) != "#")
+    {
+      if (firstRecord)
+      {
         firstRecord = false;
-        _done = false;
-        return true;
-      } else {
-        return false;
       }
+      var.parse(line, parseSamples);
+      line.clear();
+      justSetRegion = false;
+      _done = false;
+      return true;
     }
-    if (usingTabix) {
-      if (justSetRegion && !line.empty() && line.substr(0,1) != "#") {
-        if (firstRecord) {
-          firstRecord = false;
-        }
-        var.parse(line, parseSamples);
-        line.clear();
-        justSetRegion = false;
-        _done = false;
-        return true;
-      } else if (tabixFile->getNextLine(line)) {
-        var.parse(line, parseSamples);
-        _done = false;
-        return true;
-      } else {
-        _done = true;
-        return false;
-      }
-    } else {
-      if (std::getline(*file, line)) {
-        var.parse(line, parseSamples);
-        _done = false;
-        return true;
-      } else {
-        _done = true;
-        return false;
-      }
+    else if (tabixFile->getNextLine(line))
+    {
+      var.parse(line, parseSamples);
+      _done = false;
+      return true;
     }
+    else
+    {
+      _done = true;
+      return false;
+    }
+  }
+  else
+  {
+    if (std::getline(*file, line))
+    {
+      var.parse(line, parseSamples);
+      _done = false;
+      return true;
+    }
+    else
+    {
+      _done = true;
+      return false;
+    }
+  }
 }
 
-bool VariantCallFile::setRegion(string seq, long int start, long int end) {
-  stringstream regionstr;
-  if (end) {
+bool VariantCallFile::setRegion(std::string seq, long int start, long int end)
+{
+  std::stringstream regionstr;
+
+  if (end)
+  {
     regionstr << seq << ":" << start << "-" << end;
-  } else {
+  }
+  else
+  {
     regionstr << seq << ":" << start;
   }
+
   return setRegion(regionstr.str());
 }
 
-bool VariantCallFile::setRegion(string region) {
-  if (!usingTabix) {
-    cerr << "cannot setRegion on a non-tabix indexed file" << endl;
+bool VariantCallFile::setRegion(string region)
+{
+  if (!usingTabix)
+  {
+    std::cerr << "cannot setRegion on a non-tabix indexed file" << std::endl;
     exit(1);
   }
-  size_t dots = region.find("..");
+
   // convert between bamtools/freebayes style region string and tabix/samtools style
-  if (dots != string::npos) {
+  size_t dots = region.find("..");
+
+  if (dots != string::npos)
+  {
     region.replace(dots, 2, "-");
   }
-  if (tabixFile->setRegion(region)) {
-    if (tabixFile->getNextLine(line)) {
-    justSetRegion = true;
+  if (tabixFile->setRegion(region))
+  {
+    if (tabixFile->getNextLine(line))
+    {
+      justSetRegion = true;
       return true;
-    } else {
+    }
+    else
+    {
       return false;
     }
-  } else {
+  }
+  else
+  {
     return false;
   }
 }
@@ -1400,18 +1435,28 @@ map<string, int> decomposeGenotype(string& genotype) {
 }
 */
 
-map<int, int> decomposeGenotype(const string& genotype) {
-  string splitter = "/";
-  if (genotype.find("|") != string::npos) {
+std::map<int, int> decomposeGenotype(const string& genotype)
+{
+  std::string splitter = "/";
+
+  if (genotype.find("|") != string::npos)
+  {
     splitter = "|";
   }
-  vector<string> haps = split(genotype, splitter);
-  map<int, int> decomposed;
-  for (vector<string>::iterator h = haps.begin(); h != haps.end(); ++h) {
+
+  std::vector<std::string> haps = split(genotype, splitter);
+  std::map<int, int> decomposed;
+
+  for (vector<string>::iterator h = haps.begin(); h != haps.end(); ++h)
+  {
     int alt;
-    if (*h == ".") {
+
+    if (*h == ".")
+    {
       ++decomposed[NULL_ALLELE];
-    } else {
+    }
+    else
+    {
       convert(*h, alt);
       ++decomposed[alt];
     }
